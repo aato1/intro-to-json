@@ -60,7 +60,7 @@ function displayPhotos(json){
     for(let photo of json){
         // TO DO
         output += `
-            <img src="${"add image url here"}" alt="" width="${"add image width here"}" height="${"add image height here"}">
+            <img src="${photo.url}" alt="" width="${photo.width}" height="${photo.height}">
         `;
 
     }
@@ -72,21 +72,40 @@ function displayPhotos(json){
 function getUsers(data){
     console.log('This is our user data from the file: ', data);
     // TO DO - ADD USER INFO TO PAGE
+    const outputDiv = document.getElementById("users");
+
+    let output = "";
+    
+    for (let user of data.results) {
+        let birthday = new Date(user.dob.date);
+        console.log("birthday: ", birthday);
+        
+        output += `
+            <section>
+                <h3>${user.name.first} ${user.name.last}</h3>
+                <p>Username: ${user.login.username}</p>
+                <img src = "${user.picture.large}" alt = "" width = "160px" height = "160px"></img>
+                <p>Birthday: ${birthday.getMonth() + 1} - ${birthday.getDate()} - ${birthday.getFullYear()}</p>
+                <a href = "mailto:${user.email}">${user.email}</a> 
+            </section>
+        `;
+    }
+    outputDiv.innerHTML = output;
 }
 
 // call the function to display the cat photos on page load
 // the window.onload handler is where we can attach event handlers 
 // that won't be added to the page until the content has loaded
 window.onload = function(){
-    getPhotos();
+                                                                        // getPhotos();
 
     // get the data stored in our local JSON file so we can use it 
     // to display portions of the data returned
     // this only works if you open your HTML file using the live 
     // server option in VS Code, I will demonstrate
-    fetch("users.json")
-        .then(response => response.json())
-        .then(data => getUsers(data));
+                                                                        fetch("users.json")
+                                                                            .then(response => response.json())
+                                                                            .then(data => getUsers(data));
 };
 
 
